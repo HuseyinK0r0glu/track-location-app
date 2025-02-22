@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 
-const PointSchema = new mongoose.Schema({
+const pointSchema = new mongoose.Schema({
     timestamp : Number,
     coords : {
         latitude : Number,
@@ -23,5 +23,7 @@ const trackSchema = new mongoose.Schema({
     },
     locations : [pointSchema]
 });
+
+// all the point objects are embeeded inside of trackSchema so we only have a collection of track objects so we only loading up Track into mongoose 
 
 mongoose.model('Track' , trackSchema);
