@@ -31,7 +31,6 @@ const signup = (dispatch) => {
             // if signing up fails , we probably need to reflect an error message 
             dispatch({type : 'add_error' , payload : 'Something went wrong with sign up'})
         }
-
     };
 };
 
