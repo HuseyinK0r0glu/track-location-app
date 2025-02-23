@@ -9,6 +9,8 @@ const authReducer = (state,action) => {
             return {...state,errorMessage : action.payload};
         case 'signup':
             return {errorMessage : '',token:action.payload};
+        case 'signin':
+            return {errorMessage : '' , token:action.payload};
         default:
             return state;
     }
@@ -35,10 +37,19 @@ const signup = (dispatch) => {
 };
 
 const signin = (dispatch) => {
-    return ({email , password}) => {
-        // try to sign in 
+    return async ({email , password}) => {
         // handle success by updating state
         // handle failure by showing an error message 
+        try {
+            // try to sign in 
+            const response = await trackerApi.post('/signin', {email,password});
+            await AsyncStorage.setItem('token' , response.data.token);
+            dispatch({type : 'signin' , payload : response.data.token})
+            navigate('TrackList');
+        }catch (err) {
+            console.log(error);
+            dispatch({type : 'add_error' , payload : 'Something went wrong with sign in'});
+        }
     };
 };
 
