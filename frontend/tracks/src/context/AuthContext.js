@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import createDataContext from "./createDataContext";
 import trackerApi from '../api/tracker';
 
@@ -5,6 +6,8 @@ const authReducer = (state,action) => {
     switch(action.type){
         case 'add_error':
             return {...state,errorMessage : action.payload};
+        case 'signup':
+            return {...state,token:action.payload};
         default:
             return state;
     }
@@ -18,7 +21,9 @@ const signup = (dispatch) => {
             // make api request to sign up with that email and password
             const response = await trackerApi.post('/signup' , { email , password });
             // if we sign up , modify our state and say that we are authenticated 
-            console.log(response.data);
+            // whenever a user refreshs the app the user has to sign in again because all contexts states are refreshed to solve that we are going to save the token that we got from api if we succesfully sign up then we are going to AsyncStorage to save that 
+            await AsyncStorage.setItem('token' , response.data.token);
+            dispatch({type : 'signup' , payload : response.data.token});
         }catch (err) {  
             // if signing up fails , we probably need to reflect an error message 
             dispatch({type : 'add_error' , payload : 'Something went wrong with sign up'})
@@ -44,5 +49,5 @@ const signout = (dispatch) => {
 export const {Provider , Context} = createDataContext(
     authReducer,
     {signup , signin , signout},
-    { isSignedIn : false , errorMessage : ''}
+    { token : null , errorMessage : ''}
 );
