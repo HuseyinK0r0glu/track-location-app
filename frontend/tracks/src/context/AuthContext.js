@@ -1,13 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import createDataContext from "./createDataContext";
 import trackerApi from '../api/tracker';
+import { navigate } from '../navigationRef';
 
 const authReducer = (state,action) => {
     switch(action.type){
         case 'add_error':
             return {...state,errorMessage : action.payload};
         case 'signup':
-            return {...state,token:action.payload};
+            return {errorMessage : '',token:action.payload};
         default:
             return state;
     }
@@ -24,6 +25,8 @@ const signup = (dispatch) => {
             // whenever a user refreshs the app the user has to sign in again because all contexts states are refreshed to solve that we are going to save the token that we got from api if we succesfully sign up then we are going to AsyncStorage to save that 
             await AsyncStorage.setItem('token' , response.data.token);
             dispatch({type : 'signup' , payload : response.data.token});
+            // navigate to main flow
+            navigate('TrackList');
         }catch (err) {  
             // if signing up fails , we probably need to reflect an error message 
             dispatch({type : 'add_error' , payload : 'Something went wrong with sign up'})
