@@ -1,39 +1,16 @@
 import '../_mockLocation'; /// test component for location  
-import React , {useEffect , useState , useContext} from "react";
+import React , {useContext} from "react";
 import {Text,StyleSheet} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { requestForegroundPermissionsAsync , watchPositionAsync , Accuracy} from 'expo-location';
 import Map from "../components/Map";
 import { Context as LocationContext } from '../context/LocationContext';
+import useLocation from '../hooks/useLocation';
 
 const TrackCreateScreen = () => {
 
     const { addLocation } = useContext(LocationContext);
-    const [error , setError] = useState(null);
-
-    const startWatching = async () => {
-        try {
-          /// command for reseting permission settings in android emulator  
-          /// adb shell pm reset-permissions 
-          const { granted } = await requestForegroundPermissionsAsync();
-          if (!granted) {
-            throw new Error('Location permission not granted');
-          }
-          await watchPositionAsync({
-            accuracy: Accuracy.BestForNavigation,
-            timeInterval: 1000,
-            distanceInterval : 10
-          } , (location) => {
-            addLocation(location);
-          });
-        } catch (e) {
-          setError(e);
-        }
-      }; 
-
-      useEffect(() => {
-        startWatching();    
-      }, []);
+    
+    const [error] = useLocation((location) => addLocation(location));
 
     return (
         <SafeAreaView style = {styles.container}>
