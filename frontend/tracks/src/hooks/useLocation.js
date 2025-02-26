@@ -4,7 +4,7 @@ import { requestForegroundPermissionsAsync , watchPositionAsync , Accuracy} from
 export default (shouldTrack,callback) => {
 
     const [error , setError] = useState(null);
-    const [subscriber , setSubscriber] = useState(null);
+    const [subscriber , setSubscriber] = useState(null);  
 
     const startWatching = async () => {
         try {
@@ -37,7 +37,7 @@ export default (shouldTrack,callback) => {
           subscriber.remove();
           setSubscriber(null);
         }
-      }, [shouldTrack]);
+      }, [shouldTrack , callback]);
 
       // returning from a hook is done with array because of convention
       return [error];
