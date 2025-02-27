@@ -1,7 +1,7 @@
 import React from 'react';
 
 /// switch type of navigator used for switching between different screens without allowing users to go back
-import { createAppContainer , createSwitchNavigator } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
 import { createStackNavigator } from 'react-navigation-stack';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
@@ -13,10 +13,11 @@ import SignupScreen from './src/screens/SignupScreen';
 import TrackCreateScreen from './src/screens/TrackCreateScreen';
 import TrackDetailScreen from './src/screens/TrackDetailScreen';
 import TrackListScreen from './src/screens/TrackListScreen';
-import {Provider as AuthProvider} from './src/context/AuthContext';
-import {Provider as LocationProvider} from './src/context/LocationContext';
+import { Provider as AuthProvider } from './src/context/AuthContext';
+import { Provider as LocationProvider } from './src/context/LocationContext';
 import { setNavigator } from './src/navigationRef';
 import ResolveAuthScreen from './src/screens/ResolveAuthScreen';
+import { Provider as TrackProvider } from './src/context/TrackContext';
 
 const switchNavigator = createSwitchNavigator({
 
@@ -26,19 +27,19 @@ const switchNavigator = createSwitchNavigator({
 
   // we are going to have links to other navigations 
 
-  resolveAuth : ResolveAuthScreen,
+  resolveAuth: ResolveAuthScreen,
   loginFlow: createStackNavigator({
-    Signup : SignupScreen,
-    Signin : SigninScreen
+    Signup: SignupScreen,
+    Signin: SigninScreen
   }),
   mainFlow: createMaterialBottomTabNavigator({
-    trackListFlow : createStackNavigator({
-      TrackList : TrackListScreen,
-      TrackDetail : TrackDetailScreen 
-    }), 
-    CreateTrack : TrackCreateScreen,
-    Account : AccountScreen,
-    
+    trackListFlow: createStackNavigator({
+      TrackList: TrackListScreen,
+      TrackDetail: TrackDetailScreen
+    }),
+    CreateTrack: TrackCreateScreen,
+    Account: AccountScreen,
+
   })
 
 });
@@ -47,12 +48,14 @@ const App = createAppContainer(switchNavigator);
 
 export default () => {
   return (
-    <LocationProvider>
-      <AuthProvider>
-        <App ref = { (navigator) => {
-          setNavigator(navigator);
-        }}/>
+    <TrackProvider>
+      <LocationProvider>
+        <AuthProvider>
+          <App ref={(navigator) => {
+            setNavigator(navigator);
+          }} />
         </AuthProvider>
-    </LocationProvider>
+      </LocationProvider>
+    </TrackProvider>
   );
 };
