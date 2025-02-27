@@ -28,7 +28,6 @@ export default (shouldTrack,callback) => {
         }
       }; 
 
-      // 
       useEffect(() => {
         if(shouldTrack){
           startWatching();    
@@ -37,6 +36,16 @@ export default (shouldTrack,callback) => {
           subscriber.remove();
           setSubscriber(null);
         }
+
+        // before running the new effect , React automatically calls the cleanup function from the previous effect 
+        // subscriber is removed before creating a new one
+        
+        return () => {
+          if(subscriber) {
+            subscriber.remove();
+          }
+        };
+
       }, [shouldTrack , callback]);
 
       // returning from a hook is done with array because of convention
