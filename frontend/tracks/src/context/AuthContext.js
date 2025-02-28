@@ -42,7 +42,7 @@ const signup = (dispatch) => {
             // make api request to sign up with that email and password
             const response = await trackerApi.post('/signup' , { email , password });
             // if we sign up , modify our state and say that we are authenticated 
-            // whenever a user refreshs the app the user has to sign in again because all contexts states are refreshed to solve that we are going to save the token that we got from api if we succesfully sign up then we are going to AsyncStorage to save that 
+            // whenever a user refreshs the app the user has to sign in again because all contexts states are refreshed to solve that we are going to save the token that we got from api if we succesfully sign up then we are going to use AsyncStorage to save that 
             await AsyncStorage.setItem('token' , response.data.token);
             dispatch({type : 'signup' , payload : response.data.token});
             // navigate to main flow

@@ -7,6 +7,7 @@ import Map from "../components/Map";
 import { Context as LocationContext } from '../context/LocationContext';
 import useLocation from '../hooks/useLocation';
 import TrackForm from '../components/TrackForm';
+import {FontAwesome} from '@expo/vector-icons';
 
 const TrackCreateScreen = ({isFocused}) => {
 
@@ -41,5 +42,10 @@ const styles = StyleSheet.create({
         marginBottom: 20,  // Similar spacing to h3 in the original component
     }
 });
+
+TrackCreateScreen.navigationOptions = {
+    title : 'Add Track',
+    tabBarIcon : <FontAwesome name = "plus" size = {20} />
+};
 
 export default withNavigationFocus(TrackCreateScreen);
