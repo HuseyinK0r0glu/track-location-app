@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
 
 // it runs before saving a document to db
 // we are using this for hashing 
-// we use function and not the arrow function version because the user we are currently trying to save is available as "this" but in arrow functions "this" refers to the context of the file 
+// we use function keyword and not the arrow function version because the user we are currently trying to save is available as "this" in function version but in arrow functions "this" refers to the context of the file 
 
 userSchema.pre('save', function(next) {
     const user = this;
@@ -58,4 +58,4 @@ userSchema.methods.comparePasswords = function(candidatePassword) {
 
 /// we dont export or import this because mongoose only needs this line for just once
 /// if we import that this line is going to be executed again it will give error 
-mongoose.model('User',userSchema);
+mongoose.model('User',userSchema);  
