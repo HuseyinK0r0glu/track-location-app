@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const instance = axios.create({
     /// baseURL changes every 8 hours or whenever restarts 
-    baseURL : 'https://4a2e-193-140-239-246.ngrok-free.app'
+    baseURL : 'https://ee8e-193-140-239-246.ngrok-free.app'
 });
 
 instance.interceptors.request.use(
